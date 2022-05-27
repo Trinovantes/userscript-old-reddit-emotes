@@ -10,7 +10,7 @@ Embed custom subreddit emotes in old.reddit.com
     * [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (Firefox)
     * [Tampermonkey](https://www.tampermonkey.net/) (Chrome, Firefox, Safari, Edge)
 
-2. [Download the latest build](https://github.com/Trinovantes/userscript-old-reddit-emotes/releases/download/latest/template-userscript.user.js). If you have Greasemonkey or Tampermonkey installed, then you should immediately be prompted with a confirmation window asking you if you wish to install this Userscript.
+2. [Download the latest build](https://github.com/Trinovantes/userscript-old-reddit-emotes/releases/download/latest/userscript-old-reddit-emotes.user.js). If you have Greasemonkey or Tampermonkey installed, then you should immediately be prompted with a confirmation window asking you if you wish to install this Userscript.
 
 ## Dev Guide
 
