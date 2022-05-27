@@ -1,0 +1,1 @@
+export const TITLE = `${DEFINE.PRODUCT_NAME} ${DEFINE.VERSION}`
