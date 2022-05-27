@@ -64,6 +64,8 @@ const store = useStore()
 .settings{
     display: grid;
     gap: $padding;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .group{
