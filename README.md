@@ -1,6 +1,6 @@
 # Userscript Old Reddit Emotes
 
-Embed custom subreddit emotes in old.reddit.com. You need to use the new Reddit editor to post emotes because the old editor will automatically escape emote codes.
+Embed custom subreddit emotes in old.reddit.com. You still need to use the new Reddit editor to post emotes because the old editor will automatically escape emote codes.
 
 ![](.github/img/preview.png)
 
