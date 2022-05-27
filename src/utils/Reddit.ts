@@ -16,7 +16,7 @@ interface RedditComment {
         body: string
         body_html: string
         permalink: string
-        media_metadata: Record<string, {
+        media_metadata?: Record<string, {
             status: 'valid' | string
             e: 'Image' | string
             m: 'image/png' | string // mimetype
