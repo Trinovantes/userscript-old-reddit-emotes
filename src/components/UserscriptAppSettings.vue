@@ -29,7 +29,7 @@ const store = useStore()
             <div class="emotes">
                 <div
                     v-for="emote of emotes"
-                    :key="emote.name"
+                    :key="emote.id"
                     class="emote"
                 >
                     <img

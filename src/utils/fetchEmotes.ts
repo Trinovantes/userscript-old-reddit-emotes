@@ -16,20 +16,24 @@ export async function fetchEmotes(comments: Array<EmoteComment>): Promise<Array<
             onload: (res) => {
                 try {
                     const response = JSON.parse(res.responseText) as RedditCommentResponse
-                    const subredditName = response[1].data.children[0].data.subreddit
+                    const subreddit = response[1].data.children[0].data.subreddit
                     const emotes = new Array<EmoteMeta>()
 
                     for (const emote of Object.values(response[1].data.children[0].data.media_metadata)) {
-                        const matches = /emote\|t5_\w+\|(\d+)/.exec(emote.id)
-                        if (!matches) {
+                        const matches = /emote\|(t5_\w+)\|(\d+)/.exec(emote.id)
+                        if (!matches || matches.length !== 3) {
                             continue
                         }
 
+                        const subredditName = matches[1]
+                        const emoteId = matches[2]
+                        const emoteUrl = emote.s.u
+
                         emotes.push({
-                            name: emote.id,
-                            id: matches[1],
+                            id: emoteId,
+                            url: emoteUrl,
                             subredditName,
-                            url: emote.s.u,
+                            subreddit,
                         })
                     }
 

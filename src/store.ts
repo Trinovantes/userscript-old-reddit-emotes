@@ -34,11 +34,11 @@ export const useStore = defineStore('Store', {
             const groupedEmotes: Record<string, Array<EmoteMeta>> = {}
 
             for (const emote of state.cachedEmotes) {
-                if (!(emote.subredditName in groupedEmotes)) {
-                    groupedEmotes[emote.subredditName] = []
+                if (!(emote.subreddit in groupedEmotes)) {
+                    groupedEmotes[emote.subreddit] = []
                 }
 
-                groupedEmotes[emote.subredditName].push(emote)
+                groupedEmotes[emote.subreddit].push(emote)
             }
 
             return groupedEmotes
@@ -82,8 +82,8 @@ export const useStore = defineStore('Store', {
             await this.save()
         },
 
-        hasCachedEmote(wrappedEmote: string): boolean {
-            return Boolean(this.cachedEmotes.find((emote) => `:${emote.id}:` === wrappedEmote))
+        hasCachedEmote(subredditName: string, wrappedEmote: string): boolean {
+            return Boolean(this.cachedEmotes.find((emote) => emote.subredditName === subredditName && `:${emote.id}:` === wrappedEmote))
         },
 
         async fetchAndCacheEmotes(comments: Array<EmoteComment>): Promise<void> {
@@ -91,7 +91,7 @@ export const useStore = defineStore('Store', {
 
             for (const comment of comments) {
                 for (const wrappedEmote of comment.wrappedEmotes) {
-                    if (this.hasCachedEmote(wrappedEmote)) {
+                    if (this.hasCachedEmote(comment.subredditName, wrappedEmote)) {
                         continue
                     }
 
@@ -101,7 +101,7 @@ export const useStore = defineStore('Store', {
 
             const emotes = await fetchEmotes(notCachedEmoteComments)
             for (const emote of emotes) {
-                if (this.hasCachedEmote(`:${emote.id}:`)) {
+                if (this.hasCachedEmote(emote.subredditName, `:${emote.id}:`)) {
                     continue
                 }
 

@@ -1,6 +1,6 @@
 export interface EmoteMeta {
-    name: string // emote|{subreddit id}|{emote id}
     id: string
-    subredditName: string
     url: string
+    subredditName: string // t5_{subreddit id}
+    subreddit: string // actual text name e.g. TrashTaste
 }

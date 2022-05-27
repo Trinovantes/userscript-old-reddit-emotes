@@ -1,7 +1,6 @@
 import { getLogger } from './getLogger'
 import type { EmoteComment } from './EmoteComment'
 
-const emoteRegex = /:\d+:/g
 const { logWarn } = getLogger('getCommentsWithEmotes')
 
 export function getCommentsWithEmotes(): Array<EmoteComment> {
@@ -12,6 +11,12 @@ export function getCommentsWithEmotes(): Array<EmoteComment> {
         const permalink = $(commentNode).attr('data-permalink')
         if (!permalink) {
             logWarn('Failed to get permalink', commentNode)
+            continue
+        }
+
+        const subredditName = $(commentNode).attr('data-subreddit-fullname')
+        if (!subredditName?.startsWith('t5_')) {
+            logWarn('Failed to get subredditId', commentNode)
             continue
         }
 
@@ -28,7 +33,7 @@ export function getCommentsWithEmotes(): Array<EmoteComment> {
             continue
         }
 
-        const matches = [...$textNode.text().matchAll(emoteRegex)]
+        const matches = [...$textNode.text().matchAll(/:\d+:/g)]
         if (matches.length === 0) {
             continue
         }
@@ -36,6 +41,7 @@ export function getCommentsWithEmotes(): Array<EmoteComment> {
         const wrappedEmotes = matches.map((match) => match[0])
         commentsWithEmotes.push({
             permalink,
+            subredditName,
             $textNode,
             wrappedEmotes,
         })
