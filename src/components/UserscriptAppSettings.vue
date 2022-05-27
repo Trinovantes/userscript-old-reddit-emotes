@@ -34,7 +34,7 @@ const store = useStore()
                 >
                     <img
                         :src="emote.url"
-                        :title="`:${emote.id}:`"
+                        :title="emote.id"
                     >
 
                     <code>:{{ emote.id }}:</code>
