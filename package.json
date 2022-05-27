@@ -4,7 +4,7 @@
     "description": "Embed custom subreddit emotes in old.reddit.com",
     "author": "Stephen",
     "license": "AGPL-3.0-only",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "repository": {
         "type": "git",
         "url": "https://github.com/Trinovantes/userscript-old-reddit-emotes"
