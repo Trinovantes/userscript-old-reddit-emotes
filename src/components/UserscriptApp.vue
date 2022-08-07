@@ -10,7 +10,7 @@ useRedditEmotes()
 </script>
 
 <template>
-    <div class="template-userscript">
+    <div class="userscript-old-reddit-emotes">
         <div
             v-if="isOpen"
             class="dialog-wrapper"
@@ -34,7 +34,7 @@ useRedditEmotes()
 
 <style lang="scss" scoped>
 // Cannot use scoped or else user agent stylesheet will override the attribute selector (for some reason)
-:global(.template-userscript *){
+:global(.userscript-old-reddit-emotes *){
     background: none;
     outline: none;
     border: none;

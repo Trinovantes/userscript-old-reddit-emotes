@@ -35,4 +35,4 @@ Embed custom subreddit emotes in old.reddit.com. You still need to use the new R
 
 4. In Chrome:
 
-    * Go to `http://localhost:8080/template-userscript.proxy.user.js` and install the script
+    * Go to `http://localhost:8080/userscript-old-reddit-emotes.proxy.user.js` and install the script
