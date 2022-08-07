@@ -32,15 +32,15 @@ useRedditEmotes()
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // Cannot use scoped or else user agent stylesheet will override the attribute selector (for some reason)
-.template-userscript *{
+:global(.template-userscript *){
     background: none;
     outline: none;
     border: none;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-
     color: #111;
     font-size: 15px;
     font-weight: normal;
@@ -48,9 +48,7 @@ useRedditEmotes()
     line-height: 1.5;
     vertical-align: baseline;
 }
-</style>
 
-<style lang="scss" scoped>
 a.settings-btn{
     @extend .icon-btn;
 
