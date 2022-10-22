@@ -10,7 +10,7 @@ const HYDRATION_KEY = '__INITIAL_STATE__'
 // State
 // ----------------------------------------------------------------------------
 
-export interface State {
+export type State = {
     cachedEmotes: Array<EmoteMeta>
 }
 

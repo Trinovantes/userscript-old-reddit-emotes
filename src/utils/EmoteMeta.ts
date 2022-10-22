@@ -1,4 +1,4 @@
-export interface EmoteMeta {
+export type EmoteMeta = {
     id: string
     url: string
     subredditName: string // t5_{subreddit id}

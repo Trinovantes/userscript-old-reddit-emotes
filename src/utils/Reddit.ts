@@ -1,4 +1,4 @@
-interface RedditPost {
+type RedditPost = {
     kind: 't3'
     data: {
         id: string // id
@@ -7,7 +7,7 @@ interface RedditPost {
     }
 }
 
-interface RedditComment {
+type RedditComment = {
     kind: 't1'
     data: {
         id: string // id
