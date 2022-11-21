@@ -17,15 +17,17 @@ type RedditComment = {
         body_html: string
         permalink: string
         media_metadata?: Record<string, {
-            status: 'valid' | string
-            e: 'Image' | string
-            m: 'image/png' | string // mimetype
+            status: 'valid' | 'invalid'
+            e: 'Image' | 'AnimatedImage' | string
+            m: string // mimetype
             s: {
-                x: number
-                y: number
-                u: string // url
+                x: number // width
+                y: number // height
+
+                gif?: string
+                u?: string // url
             }
-            t: 'emoji' | string
+            t?: 'emoji' // type
             id: string
         }>
     }

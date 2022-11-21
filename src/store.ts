@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
-import { fetchEmotes } from './utils/fetchEmotes'
 import { getLogger } from './utils/getLogger'
-import type { EmoteComment } from './utils/EmoteComment'
-import type { EmoteMeta } from './utils/EmoteMeta'
+import type { RedditComment } from './utils/Reddit/RedditComment'
+import type { EmoteMeta } from './utils/Reddit/emotes/EmoteMeta'
 
 const HYDRATION_KEY = '__INITIAL_STATE__'
 
@@ -71,7 +70,7 @@ export const useStore = defineStore('Store', {
                 const stateString = JSON.stringify(this.$state)
                 await GM.setValue(HYDRATION_KEY, stateString)
 
-                logInfo(stateString)
+                logInfo(JSON.parse(stateString))
             } catch (err) {
                 logWarn(err)
             }
@@ -82,26 +81,24 @@ export const useStore = defineStore('Store', {
             await this.save()
         },
 
-        hasCachedEmote(subredditName: string, wrappedEmote: string): boolean {
-            return Boolean(this.cachedEmotes.find((emote) => emote.subredditName === subredditName && `:${emote.id}:` === wrappedEmote))
+        hasCachedEmote(subredditName: string, emoteId: string): boolean {
+            return Boolean(this.cachedEmotes.find((emote) => emote.subredditName === subredditName && emote.id === emoteId))
         },
 
-        async fetchAndCacheEmotes(comments: Array<EmoteComment>): Promise<void> {
-            const notCachedEmoteComments = new Array<EmoteComment>()
-
-            for (const comment of comments) {
-                for (const wrappedEmote of comment.wrappedEmotes) {
-                    if (this.hasCachedEmote(comment.subredditName, wrappedEmote)) {
-                        continue
-                    }
-
-                    notCachedEmoteComments.push(comment)
+        hasCachedAllEmotesInComment(comment: RedditComment): boolean {
+            for (const wrappedEmote of comment.wrappedEmotes) {
+                const emoteId = wrappedEmote.substring(1, wrappedEmote.length - 1)
+                if (!this.hasCachedEmote(comment.subredditName, emoteId)) {
+                    return false
                 }
             }
 
-            const emotes = await fetchEmotes(notCachedEmoteComments)
+            return true
+        },
+
+        async cacheEmotes(emotes: Array<EmoteMeta>): Promise<void> {
             for (const emote of emotes) {
-                if (this.hasCachedEmote(emote.subredditName, `:${emote.id}:`)) {
+                if (this.hasCachedEmote(emote.subredditName, emote.id)) {
                     continue
                 }
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { TITLE } from '../Constants'
-import { useRedditEmotes } from '@/utils/useRedditEmotes'
+import { useRedditEmotes } from '@/utils/Reddit/useRedditEmotes'
 import UserscriptAppSettings from './UserscriptAppSettings.vue'
 
 const isOpen = ref(false)

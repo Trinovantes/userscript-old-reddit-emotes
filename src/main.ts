@@ -1,7 +1,7 @@
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import UserscriptApp from './components/UserscriptApp.vue'
-import { isCommentsPage } from './utils/isCommentsPage'
+import { isCommentsPage } from './utils/Reddit/isCommentsPage'
 
 async function main() {
     if (!isCommentsPage()) {
