@@ -2,10 +2,12 @@ import type { RedditComment } from '../RedditComment'
 
 export function injectEmbeds(comments: Array<RedditComment>): void {
     for (const comment of comments) {
+        const numEmbeds = (comment.$textNode.html().match(/&lt;image&gt;/g) ?? []).length
+
         comment.$textNode.html((idx, oldHtml) => {
-            while (oldHtml.includes('&lt;image&gt;')) {
-                oldHtml = oldHtml.replace(/<a href="([\w\\/?=&:;.]+)" target="_blank">&lt;image&gt;<\/a>/, `
-                    <a href="$1" target="_blank">
+            for (let i = 0; i < numEmbeds; i++) {
+                oldHtml = oldHtml.replace(/<a href="([\w\\/?=&:;.]+)" (.+)>&lt;image&gt;<\/a>/, `
+                    <a href="$1" $2>
                         <img
                             src="$1"
                             title="$1"
