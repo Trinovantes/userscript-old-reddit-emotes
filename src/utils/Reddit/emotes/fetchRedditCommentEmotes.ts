@@ -1,7 +1,7 @@
 import { getLogger } from '../../getLogger'
+import type { EmoteMeta } from './EmoteMeta'
 import type { RedditComment } from '../RedditComment'
 import type { RedditCommentResponse } from '../RedditCommentResponse'
-import type { EmoteMeta } from './EmoteMeta'
 
 const { logInfo, logWarn } = getLogger('fetchRedditCommentEmotes')
 
