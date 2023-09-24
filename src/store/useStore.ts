@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { getLogger } from './utils/getLogger'
-import type { RedditComment } from './utils/Reddit/RedditComment'
-import type { EmoteMeta } from './utils/Reddit/emotes/EmoteMeta'
+import { RedditComment } from '../utils/RedditComment'
+import { EmoteMeta } from '../utils/EmoteMeta'
+import { DEFAULT_MAX_EMBED_WIDTH } from '@/Constants'
 
 const HYDRATION_KEY = '__INITIAL_STATE__'
 
@@ -10,11 +10,13 @@ const HYDRATION_KEY = '__INITIAL_STATE__'
 // ----------------------------------------------------------------------------
 
 export type State = {
+    maxEmbedWidth: number
     cachedEmotes: Array<EmoteMeta>
 }
 
 function createDefaultState(): State {
     const defaultState: State = {
+        maxEmbedWidth: DEFAULT_MAX_EMBED_WIDTH,
         cachedEmotes: [],
     }
 
@@ -46,33 +48,23 @@ export const useStore = defineStore('Store', {
 
     actions: {
         async load(): Promise<void> {
-            const { logInfo, logWarn } = getLogger('store::Load')
-
             try {
-                const stateString = await GM.getValue(HYDRATION_KEY, '{}') || '{}'
+                const stateString = await GM.getValue(HYDRATION_KEY, '{}')
                 const parsedState = JSON.parse(stateString) as Partial<State>
-
-                this.$patch({
-                    ...createDefaultState(),
-                    ...parsedState,
-                })
-
-                logInfo(parsedState)
+                this.$patch(parsedState)
+                console.info(DEFINE.NAME, 'Store::load', parsedState)
             } catch (err) {
-                logWarn(err)
+                console.warn(err)
             }
         },
 
         async save(): Promise<void> {
-            const { logInfo, logWarn } = getLogger('store::Save')
-
             try {
                 const stateString = JSON.stringify(this.$state)
                 await GM.setValue(HYDRATION_KEY, stateString)
-
-                logInfo(JSON.parse(stateString))
+                console.info(DEFINE.NAME, 'Store::save', JSON.parse(stateString))
             } catch (err) {
-                logWarn(err)
+                console.warn(err)
             }
         },
 

@@ -1,23 +1,24 @@
-import { createPinia } from 'pinia'
-import { createApp } from 'vue'
-import UserscriptApp from './components/UserscriptApp.vue'
-import { isOldCommentsPage } from './utils/Reddit/isOldCommentsPage'
+import './assets/css/main.scss'
+import { createVueApp } from './createVueApp'
+import { isOldCommentsPage } from './utils/isOldCommentsPage'
 
 async function main() {
     if (!isOldCommentsPage()) {
         return
     }
 
-    await $.when($.ready)
-    const appContainerId = DEFINE.NAME
-    $('body').append(`<div id="${appContainerId}">`)
+    const node = document.createElement('div')
+    node.id = DEFINE.NAME
+    document.querySelector('body')?.appendChild(node)
 
-    const app = createApp(UserscriptApp)
-    const pinia = createPinia()
-    app.use(pinia)
-    app.mount(`#${appContainerId}`)
+    const app = await createVueApp()
+    app.mount(node)
 }
 
-main().catch((err) => {
-    console.warn(DEFINE.NAME, err)
-})
+if (document.readyState !== 'loading') {
+    void main()
+} else {
+    window.addEventListener('DOMContentLoaded', () => {
+        void main()
+    })
+}

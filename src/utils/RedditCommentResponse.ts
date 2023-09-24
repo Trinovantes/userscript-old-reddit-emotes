@@ -18,7 +18,6 @@ type RedditComment = {
         permalink: string
         media_metadata?: Record<string, {
             status: 'valid' | 'invalid'
-            e: 'Image' | 'AnimatedImage' | string
             m: string // mimetype
             s: {
                 x: number // width

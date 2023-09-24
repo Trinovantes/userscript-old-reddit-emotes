@@ -1,22 +1,19 @@
-import { getLogger } from '../../getLogger'
-import type { EmoteMeta } from './EmoteMeta'
-import type { RedditComment } from '../RedditComment'
-
-const { logWarn } = getLogger('injectEmotes')
+import { EmoteMeta } from './EmoteMeta'
+import { RedditComment } from './RedditComment'
 
 export function injectEmotes(comments: Array<RedditComment>, cachedEmotes: Array<EmoteMeta>): void {
     for (const comment of comments) {
-        const originalCommentText = comment.$textNode.text().trim()
+        const originalCommentText = comment.textNode.textContent?.trim()
 
         for (const wrappedEmote of comment.wrappedEmotes) {
             const emote = cachedEmotes.find((emote) => `:${emote.id}:` === wrappedEmote)
             if (!emote) {
-                logWarn('Failed to match emote', wrappedEmote, comment)
+                console.warn(DEFINE.NAME, 'Failed to match emote', wrappedEmote, comment)
                 continue
             }
 
-            const isEmoteAlone = originalCommentText === wrappedEmote
-            comment.$textNode.html((idx, oldHtml) => oldHtml.replaceAll(wrappedEmote, getEmoteImg(emote, isEmoteAlone)))
+            const isEmoteAlone = (originalCommentText === wrappedEmote)
+            comment.textNode.innerHTML = comment.textNode.innerHTML.replaceAll(wrappedEmote, getEmoteImg(emote, isEmoteAlone))
         }
     }
 }
