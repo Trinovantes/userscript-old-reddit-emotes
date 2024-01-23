@@ -19,7 +19,11 @@ export async function fetchRedditCommentEmotes(comments: Array<RedditComment>): 
                         resolve(commentEmotes)
                     } catch (err) {
                         console.warn(DEFINE.NAME, 'Failed to parse Reddit API response', err)
-                        reject(err)
+                        if (err instanceof Error) {
+                            reject(err)
+                        } else {
+                            reject(new Error(`Failed to fetch comment emotes err:${String(err)}`))
+                        }
                     }
                 },
                 onerror: (errorResponse) => {
