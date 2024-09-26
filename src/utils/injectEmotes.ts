@@ -1,5 +1,5 @@
-import { EmoteMeta } from './EmoteMeta'
-import { RedditComment } from './RedditComment'
+import type { EmoteMeta } from './EmoteMeta.ts'
+import type { RedditComment } from './RedditComment.ts'
 
 export function injectEmotes(comments: Array<RedditComment>, cachedEmotes: Array<EmoteMeta>): void {
     for (const comment of comments) {
@@ -8,7 +8,7 @@ export function injectEmotes(comments: Array<RedditComment>, cachedEmotes: Array
         for (const wrappedEmote of comment.wrappedEmotes) {
             const emote = cachedEmotes.find((emote) => `:${emote.id}:` === wrappedEmote)
             if (!emote) {
-                console.warn(DEFINE.NAME, 'Failed to match emote', wrappedEmote, comment)
+                console.warn(__NAME__, 'Failed to match emote', wrappedEmote, comment)
                 continue
             }
 

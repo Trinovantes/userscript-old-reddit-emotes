@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
-import { projectTitle } from '@/Constants'
-import { useStore } from '@/store/useStore'
-import { getCommentsOnPage } from '@/utils/getCommentsOnPage'
-import { injectEmbeds } from '@/utils/injectEmbeds'
-import { fetchRedditCommentEmotes } from '@/utils/fetchRedditCommentEmotes'
-import { injectEmotes } from '@/utils/injectEmotes'
+import { projectTitle } from '../Constants.ts'
+import { useStore } from '../store/useStore.ts'
+import { getCommentsOnPage } from '../utils/getCommentsOnPage.ts'
+import { injectEmbeds } from '../utils/injectEmbeds.ts'
+import { fetchRedditCommentEmotes } from '../utils/fetchRedditCommentEmotes.ts'
+import { injectEmotes } from '../utils/injectEmotes.ts'
 import UserscriptAppSettings from './UserscriptAppSettings.vue'
 
 const dialogRef = ref<HTMLDialogElement | null>(null)
@@ -13,7 +13,7 @@ const dialogRef = ref<HTMLDialogElement | null>(null)
 const store = useStore()
 const maxEmbedWidth = computed(() => store.maxEmbedWidth)
 
-onMounted(async() => {
+onMounted(async () => {
     const comments = getCommentsOnPage()
 
     const commentsWithEmotes = comments.filter((comment) => comment.wrappedEmotes.length > 0)
@@ -49,7 +49,7 @@ onMounted(async() => {
 
 <style lang="scss" scoped>
 button.settings-btn{
-    background-image: url('@/assets/img/settings.png');
+    background-image: url('../assets/img/settings.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: 50% 50%;

@@ -17,7 +17,7 @@ Embed custom subreddit emotes in old.reddit.com. You still need to use the new R
 1. Install prereqs
 
     * `node`
-    * `yarn`
+    * `pnpm`
     * Tampermonkey on Chrome
 
 2. In Chrome:
@@ -29,8 +29,8 @@ Embed custom subreddit emotes in old.reddit.com. You still need to use the new R
 3. Run dev server
 
     ```
-    yarn install
-    yarn dev
+    pnpm install
+    pnpm dev
     ```
 
 4. In Chrome:

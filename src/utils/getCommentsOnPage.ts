@@ -1,4 +1,4 @@
-import { RedditComment } from './RedditComment'
+import type { RedditComment } from './RedditComment.ts'
 
 export function getCommentsOnPage() {
     const comments = new Array<RedditComment>()
@@ -19,19 +19,19 @@ export function getCommentsOnPage() {
 
         const subredditName = commentNode.getAttribute('data-subreddit-fullname')
         if (!subredditName?.startsWith('t5_')) {
-            console.warn(DEFINE.NAME, 'getCommentsWithEmbeds', 'Failed to get subredditName', commentNode)
+            console.warn(__NAME__, 'getCommentsWithEmbeds', 'Failed to get subredditName', commentNode)
             continue
         }
 
         const commentName = commentNode.getAttribute('data-fullname')
         if (!commentName) {
-            console.warn(DEFINE.NAME, 'getCommentsWithEmbeds', 'Failed to get commentName', commentNode)
+            console.warn(__NAME__, 'getCommentsWithEmbeds', 'Failed to get commentName', commentNode)
             continue
         }
 
         const textNode = commentNode.querySelector(`.entry input[value=${commentName}]+.md-container .md`)
         if (!textNode) {
-            console.warn(DEFINE.NAME, 'getCommentsWithEmbeds', 'Failed to get textNode', commentNode)
+            console.warn(__NAME__, 'getCommentsWithEmbeds', 'Failed to get textNode', commentNode)
             continue
         }
 
