@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { RedditComment } from '../utils/RedditComment'
-import { EmoteMeta } from '../utils/EmoteMeta'
-import { DEFAULT_MAX_EMBED_WIDTH } from '@/Constants'
+import type { RedditComment } from '../utils/RedditComment.ts'
+import type { EmoteMeta } from '../utils/EmoteMeta.ts'
+import { DEFAULT_MAX_EMBED_WIDTH } from '../Constants.ts'
 
 const HYDRATION_KEY = '__INITIAL_STATE__'
 
@@ -52,7 +52,7 @@ export const useStore = defineStore('Store', {
                 const stateString = await GM.getValue(HYDRATION_KEY, '{}')
                 const parsedState = JSON.parse(stateString) as Partial<State>
                 this.$patch(parsedState)
-                console.info(DEFINE.NAME, 'Store::load', parsedState)
+                console.info(__NAME__, 'Store::load', parsedState)
             } catch (err) {
                 console.warn(err)
             }
@@ -62,7 +62,7 @@ export const useStore = defineStore('Store', {
             try {
                 const stateString = JSON.stringify(this.$state)
                 await GM.setValue(HYDRATION_KEY, stateString)
-                console.info(DEFINE.NAME, 'Store::save', JSON.parse(stateString))
+                console.info(__NAME__, 'Store::save', JSON.parse(stateString))
             } catch (err) {
                 console.warn(err)
             }

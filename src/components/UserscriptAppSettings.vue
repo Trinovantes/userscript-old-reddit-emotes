@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import { projectTitle, projectUrl } from '@/Constants'
-import { useStore } from '@/store/useStore'
+import { projectTitle, projectUrl } from '../Constants.ts'
+import { useStore } from '../store/useStore.ts'
 
 const emit = defineEmits(['close'])
 const store = useStore()
-const save = async() => {
+const save = async () => {
     await store.save()
     emit('close')
 }
-const clearCache = async() => {
+const clearCache = async () => {
     await store.reset()
     emit('close')
 }
-const cancel = async() => {
+const cancel = async () => {
     await store.load()
     emit('close')
 }

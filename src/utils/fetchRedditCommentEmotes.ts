@@ -1,13 +1,13 @@
-import { EmoteMeta } from './EmoteMeta'
-import { RedditComment } from './RedditComment'
-import { RedditCommentResponse } from './RedditCommentResponse'
+import type { EmoteMeta } from './EmoteMeta.ts'
+import type { RedditComment } from './RedditComment.ts'
+import type { RedditCommentResponse } from './RedditCommentResponse.ts'
 
 export async function fetchRedditCommentEmotes(comments: Array<RedditComment>): Promise<Array<EmoteMeta>> {
     const urls = uniqueCommentUrls(comments)
     const emotes = new Array<EmoteMeta>()
 
     for (const url of urls) {
-        console.info(DEFINE.NAME, 'fetchRedditCommentEmotes', url)
+        console.info(__NAME__, 'fetchRedditCommentEmotes', url)
         const request = new Promise<Array<EmoteMeta>>((resolve, reject) => {
             GM.xmlHttpRequest({
                 method: 'GET',
@@ -18,7 +18,7 @@ export async function fetchRedditCommentEmotes(comments: Array<RedditComment>): 
                         const commentEmotes = getEmoteMeta(response)
                         resolve(commentEmotes)
                     } catch (err) {
-                        console.warn(DEFINE.NAME, 'Failed to parse Reddit API response', err)
+                        console.warn(__NAME__, 'Failed to parse Reddit API response', err)
                         if (err instanceof Error) {
                             reject(err)
                         } else {
@@ -28,7 +28,7 @@ export async function fetchRedditCommentEmotes(comments: Array<RedditComment>): 
                 },
                 onerror: (errorResponse) => {
                     const msg = `Failed to fetch Reddit API (${errorResponse.status} ${errorResponse.statusText}): ${errorResponse.responseText}`
-                    console.warn(DEFINE.NAME, msg)
+                    console.warn(__NAME__, msg)
                     reject(new Error(msg))
                 },
             })

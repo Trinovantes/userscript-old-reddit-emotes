@@ -1,6 +1,6 @@
 import './assets/css/main.scss'
-import { createVueApp } from './createVueApp'
-import { isOldCommentsPage } from './utils/isOldCommentsPage'
+import { createVueApp } from './createVueApp.ts'
+import { isOldCommentsPage } from './utils/isOldCommentsPage.ts'
 
 async function main() {
     if (!isOldCommentsPage()) {
@@ -8,7 +8,7 @@ async function main() {
     }
 
     const node = document.createElement('div')
-    node.id = DEFINE.NAME
+    node.id = __NAME__
     document.querySelector('body')?.appendChild(node)
 
     const app = await createVueApp()

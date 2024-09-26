@@ -1,4 +1,4 @@
-import { RedditComment } from './RedditComment'
+import type { RedditComment } from './RedditComment.ts'
 
 export function injectEmbeds(comments: Array<RedditComment>, maxEmbedWidth: number): void {
     for (const comment of comments) {
