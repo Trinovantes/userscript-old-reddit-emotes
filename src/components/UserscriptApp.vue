@@ -1,30 +1,11 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
-import { projectTitle } from '../Constants.ts'
-import { useStore } from '../store/useStore.ts'
-import { getCommentsOnPage } from '../utils/getCommentsOnPage.ts'
-import { injectEmbeds } from '../utils/injectEmbeds.ts'
-import { fetchRedditCommentEmotes } from '../utils/fetchRedditCommentEmotes.ts'
-import { injectEmotes } from '../utils/injectEmotes.ts'
+import { useTemplateRef } from 'vue'
 import UserscriptAppSettings from './UserscriptAppSettings.vue'
+import { useRedditCommentTransformer } from './useRedditCommentTransformer.ts'
+import { projectTitle } from '../Constants.ts'
 
-const dialogRef = ref<HTMLDialogElement | null>(null)
-
-const store = useStore()
-const maxEmbedWidth = computed(() => store.maxEmbedWidth)
-
-onMounted(async () => {
-    const comments = getCommentsOnPage()
-
-    const commentsWithEmotes = comments.filter((comment) => comment.wrappedEmotes.length > 0)
-    const commentsToFetch = commentsWithEmotes.filter((comment) => !store.hasCachedAllEmotesInComment(comment))
-    const emotes = await fetchRedditCommentEmotes(commentsToFetch)
-    await store.cacheEmotes(emotes)
-    injectEmotes(commentsWithEmotes, store.cachedEmotes)
-
-    const commentsWithEmbeds = comments.filter((comment) => comment.hasEmbed)
-    injectEmbeds(commentsWithEmbeds, maxEmbedWidth.value)
-})
+const dialogRef = useTemplateRef<HTMLDialogElement | null>('dialogRef')
+useRedditCommentTransformer()
 </script>
 
 <template>

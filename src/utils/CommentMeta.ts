@@ -1,9 +1,10 @@
-export type RedditComment = {
+export type CommentMeta = {
     commentName: string // t1_{comment id}
     permalink: string // url
     subredditName: string // t5_{subreddit id}
     textNode: Element
 
     wrappedEmotes: Array<string> // e.g. :12345:
-    hasEmbed: boolean
+    hasEscapedImgEmbed: boolean // Comments with "&lt;image&gt;" text
+    hasProcessingImgEmbed: boolean // Comments with "Processing img ..." text
 }

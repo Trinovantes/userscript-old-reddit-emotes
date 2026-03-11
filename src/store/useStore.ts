@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import type { RedditComment } from '../utils/RedditComment.ts'
+import type { CommentMeta } from '../utils/CommentMeta.ts'
 import type { EmoteMeta } from '../utils/EmoteMeta.ts'
 import { DEFAULT_MAX_EMBED_WIDTH } from '../Constants.ts'
+import { fetchRedditCommentEmotes } from '../utils/fetchRedditCommentEmotes.ts'
 
 const HYDRATION_KEY = '__INITIAL_STATE__'
 
@@ -77,7 +78,7 @@ export const useStore = defineStore('Store', {
             return Boolean(this.cachedEmotes.find((emote) => emote.subredditName === subredditName && emote.id === emoteId))
         },
 
-        hasCachedAllEmotesInComment(comment: RedditComment): boolean {
+        hasCachedAllEmotesInComment(comment: CommentMeta): boolean {
             for (const wrappedEmote of comment.wrappedEmotes) {
                 const emoteId = wrappedEmote.substring(1, wrappedEmote.length - 1)
                 if (!this.hasCachedEmote(comment.subredditName, emoteId)) {
@@ -88,7 +89,11 @@ export const useStore = defineStore('Store', {
             return true
         },
 
-        async cacheEmotes(emotes: Array<EmoteMeta>): Promise<void> {
+        async fetchEmotes(comments: Array<CommentMeta>): Promise<void> {
+            const commentsWithEmbeds = comments.filter((comment) => comment.wrappedEmotes.length > 0)
+            const commentsToFetch = commentsWithEmbeds.filter((comment) => !this.hasCachedAllEmotesInComment(comment))
+            const emotes = await fetchRedditCommentEmotes(commentsToFetch)
+
             for (const emote of emotes) {
                 if (this.hasCachedEmote(emote.subredditName, emote.id)) {
                     continue

@@ -1,9 +1,65 @@
 import type { EmoteMeta } from './EmoteMeta.ts'
-import type { RedditComment } from './RedditComment.ts'
-import type { RedditCommentResponse } from './RedditCommentResponse.ts'
+import type { CommentMeta } from './CommentMeta.ts'
 
-export async function fetchRedditCommentEmotes(comments: Array<RedditComment>): Promise<Array<EmoteMeta>> {
-    const urls = uniqueCommentUrls(comments)
+// ----------------------------------------------------------------------------
+// MARK: Types
+// ----------------------------------------------------------------------------
+
+type RedditPost = {
+    kind: 't3'
+    data: {
+        id: string // id
+        name: string // t1_{id}
+        subreddit_id: string
+    }
+}
+
+type RedditComment = {
+    kind: 't1'
+    data: {
+        id: string // id
+        name: string // t3_{id}
+        subreddit: string
+        body: string
+        body_html: string
+        permalink: string
+        media_metadata?: Record<string, {
+            status: 'valid' | 'invalid'
+            m: string // mimetype
+            s: {
+                x: number // width
+                y: number // height
+
+                gif?: string
+                u?: string // url
+            }
+            t?: 'emoji' // type
+            id: string
+        }>
+    }
+}
+
+type RedditCommentResponse = [
+    {
+        kind: string
+        data: {
+            children: Array<RedditPost>
+        }
+    },
+    {
+        kind: string
+        data: {
+            children: Array<RedditComment>
+        }
+    },
+]
+
+// ----------------------------------------------------------------------------
+// MARK: fetch
+// ----------------------------------------------------------------------------
+
+export async function fetchRedditCommentEmotes(comments: Array<CommentMeta>): Promise<Array<EmoteMeta>> {
+    const urls = getUniqueCommentUrls(comments)
     const emotes = new Array<EmoteMeta>()
 
     for (const url of urls) {
@@ -40,7 +96,11 @@ export async function fetchRedditCommentEmotes(comments: Array<RedditComment>): 
     return emotes
 }
 
-function uniqueCommentUrls(comments: Array<RedditComment>): Array<string> {
+// ----------------------------------------------------------------------------
+// MARK: Helpers
+// ----------------------------------------------------------------------------
+
+function getUniqueCommentUrls(comments: Array<CommentMeta>): Array<string> {
     const visitedEmotes = new Set<string>() // If multiple comments use the same emote, only need to fetch one comment
     const urls = new Set<string>()
 
